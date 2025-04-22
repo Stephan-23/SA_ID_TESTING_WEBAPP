@@ -9,9 +9,16 @@ function onClick(e){
     if( idInput.value === ''){                           //check if the iput is filled
         msg.innerHTML = "CANNOT TEST THE EMPTY ID"      //throw error msg in the msg space
       //alert('can not test empty id')
-      //remove the msg after 4sec
-      setTimeout(() => msg.remove(), 4000)
-    }
+      
+      setTimeout(() => msg.remove(), 4000)//remove the msg after 4sec
+    } else {
+               // Check if the input contains only digits (no letters or special characters)
+            if (!/^\d+$/.test(idInput.value)) {
+                msg.textContent = 'Invalid ID: Please enter only numbers.';  // Error message for invalid input
+                msg.style.color = 'red';  // Set message color to red for error
+            } 
+  
+        }
 }
 
 
