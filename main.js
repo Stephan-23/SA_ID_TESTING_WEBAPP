@@ -31,6 +31,17 @@ function isDateValid(yyMMdd) {
     );
 }
 
+// Check for citizenship based on the 10th digit (index 10 in the ID)
+function isCitizen() {
+    const citizenDigit = idInput.value[10];  // The 10th character is at index 10
+    if (citizenDigit === "1" || citizenDigit === "0") {
+        return true;  // Citizen is valid if 1 or 0
+    } else {
+        return false;  // Invalid citizen status
+    }
+}
+
+
 
 function onClick(e){
     //console.log('button click')
@@ -59,7 +70,13 @@ function onClick(e){
                 msg.style.color = 'red';
                 removeMsg();
             }
-  
+           // Check the 10th digit for citizenship
+            else if (!isCitizen()) {
+                msg.textContent = 'Invalid citizenship: 10th digit should be "0" or "1".';
+                msg.style.color = 'red';
+                removeMsg();
+            }
+    
         }
 }
 
