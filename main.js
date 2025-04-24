@@ -80,6 +80,27 @@ function getCitizenship(id) {
     return citizenDigit === '0' ? 'South African' : 'Permanent Resident';
 }
 
+
+//calculate the age
+function getAge(id) {
+    let year = parseInt(id.substring(0, 2), 10);
+    let month = parseInt(id.substring(2, 4), 10) - 1; // Months are 0-based in JS
+    let day = parseInt(id.substring(4, 6), 10);
+    let fullYear = year >= 25 ? 1900 + year : 2000 + year;
+
+    const birthDate = new Date(fullYear, month, day);
+    const today = new Date();
+
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+    }
+
+    return age;
+}
+
+
 function onClick(e) {
     if (idInput.value === '') {  // Check if the input is filled
         msg.innerHTML = "CANNOT TEST THE EMPTY ID";
@@ -125,10 +146,12 @@ function onClick(e) {
             const birthdate = getDateOfBirth(id);
             const gender = getGender(id);
             const citizenship = getCitizenship(id);
+            const age = getAge(id);
 
             msg.innerHTML = `
                 <strong>ID is valid!</strong><br>
                 Birthdate: ${birthdate}<br>
+                Age: ${age} years old<br>
                 Gender: ${gender}<br>
                 Citizenship: ${citizenship}
             `;
