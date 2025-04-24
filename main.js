@@ -67,7 +67,7 @@ function getDateOfBirth(id){
     const month = parseInt(id.substring(2, 4), 10);
     const day = parseInt(id.substring(4, 6), 10);
 
-    return `${String(day).padStart(2, '0')}/${String(month).padStart(2, '0')}/${fullYear}`;
+    return `${String(day).padStart(2, '0')}/${String(month).padStart(2, '0')}/${year}`;
 }
 
 function getGender(id) {
@@ -122,7 +122,7 @@ function onClick(e) {
         
         else {
             const id = idInput.value;
-            const birthdate = getFormattedBirthdate(id);
+            const birthdate = getDateOfBirth(id);
             const gender = getGender(id);
             const citizenship = getCitizenship(id);
 
