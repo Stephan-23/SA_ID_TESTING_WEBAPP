@@ -121,9 +121,19 @@ function onClick(e) {
         }
         
         else {
-            msg.textContent = 'ID is valid!';
+            const id = idInput.value;
+            const birthdate = getFormattedBirthdate(id);
+            const gender = getGender(id);
+            const citizenship = getCitizenship(id);
+
+            msg.innerHTML = `
+                <strong>ID is valid!</strong><br>
+                Birthdate: ${birthdate}<br>
+                Gender: ${gender}<br>
+                Citizenship: ${citizenship}
+            `;
             msg.style.color = 'green';
             removeMsg();
-        }
-    }
+                }
+            }
 }
