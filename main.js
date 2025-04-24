@@ -61,6 +61,24 @@ function isLuhnValid(idNumber) {
     return (sum % 10 === 0);
 }
 
+//fuction to display the information
+function getDateOfBirth(id){
+    let year = parseInt(id.substring(0, 2), 10);
+    const month = parseInt(id.substring(2, 4), 10);
+    const day = parseInt(id.substring(4, 6), 10);
+
+    return `${String(day).padStart(2, '0')}/${String(month).padStart(2, '0')}/${fullYear}`;
+}
+
+function getGender(id) {
+    let genderCode = parseInt(id.substring(6, 10), 10);
+    return genderCode < 5000 ? 'Female' : 'Male';
+}
+
+function getCitizenship(id) {
+    const citizenDigit = id[10];
+    return citizenDigit === '0' ? 'South African' : 'Permanent Resident';
+}
 
 function onClick(e) {
     if (idInput.value === '') {  // Check if the input is filled
