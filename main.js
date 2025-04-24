@@ -101,6 +101,39 @@ function getAge(id) {
 }
 
 
+ //function for adding the Zodiac Sign
+ function getZodiacSign(day, month) {
+    const signs = [
+        { sign: "Capricorn", from: [12, 22], to: [1, 19] },
+        { sign: "Aquarius", from: [1, 20], to: [2, 18] },
+        { sign: "Pisces", from: [2, 19], to: [3, 20] },
+        { sign: "Aries", from: [3, 21], to: [4, 19] },
+        { sign: "Taurus", from: [4, 20], to: [5, 20] },
+        { sign: "Gemini", from: [5, 21], to: [6, 20] },
+        { sign: "Cancer", from: [6, 21], to: [7, 22] },
+        { sign: "Leo", from: [7, 23], to: [8, 22] },
+        { sign: "Virgo", from: [8, 23], to: [9, 22] },
+        { sign: "Libra", from: [9, 23], to: [10, 22] },
+        { sign: "Scorpio", from: [10, 23], to: [11, 21] },
+        { sign: "Sagittarius", from: [11, 22], to: [12, 21] },
+    ];
+
+    for (const { sign, from, to } of signs) {
+        const [fromMonth, fromDay] = from;
+        const [toMonth, toDay] = to;
+
+        if (
+            (month === fromMonth && day >= fromDay) ||
+            (month === toMonth && day <= toDay)
+        ) {
+            return sign;
+        }
+    }
+
+    return "Capricorn"; // fallback
+}
+
+
 function onClick(e) {
     if (idInput.value === '') {  // Check if the input is filled
         msg.innerHTML = "CANNOT TEST THE EMPTY ID";
@@ -147,11 +180,16 @@ function onClick(e) {
             const gender = getGender(id);
             const citizenship = getCitizenship(id);
             const age = getAge(id);
+            const birthDay = parseInt(id.substring(4, 6), 10);
+            const birthMonth = parseInt(id.substring(2, 4), 10);
+            const zodiac = getZodiacSign(birthDay, birthMonth);
+
 
             msg.innerHTML = `
                 <strong>ID is valid!</strong><br>
                 Birthdate: ${birthdate}<br>
                 Age: ${age} years old<br>
+                Zodiac Sign: ${zodiac} ♈️
                 Gender: ${gender}<br>
                 Citizenship: ${citizenship}
             `;
