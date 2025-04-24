@@ -5,7 +5,7 @@ const msg = document.querySelector('#msg');
 btn.addEventListener('click', onClick);
 
 function removeMsg() {
-    setTimeout(() => msg.remove(), 4000); // Remove the msg after 4 seconds
+    setTimeout(() => msg.innerHTML = '', 4000); // Remove the msg after 4 seconds
 }
 
 // Check for date validity
