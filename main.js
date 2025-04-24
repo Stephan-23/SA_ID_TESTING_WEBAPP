@@ -41,6 +41,26 @@ function genderValidation() {
     let genderCode = parseInt(idInput.value.substring(6, 10), 10); // Extract gender code
     return genderCode >= 0 && genderCode <= 9999; // Valid gender code range
 }
+//check for the last digit
+function isLuhnValid(idNumber) {
+    let sum = 0;
+    let alternate = false;
+
+    for (let i = idNumber.length - 1; i >= 0; i--) {
+        let n = parseInt(idNumber[i], 10);
+        if (alternate) {
+            n *= 2;
+            if (n > 9) {
+                n -= 9;
+            }
+        }
+        sum += n;
+        alternate = !alternate;
+    }
+
+    return (sum % 10 === 0);
+}
+
 
 function onClick(e) {
     if (idInput.value === '') {  // Check if the input is filled
@@ -75,6 +95,13 @@ function onClick(e) {
             msg.style.color = 'red';
             removeMsg();
         }
+        //Check the last digit
+        else if (!isLuhnValid(idInput.value)) {
+            msg.textContent = 'Invalid checksum: ID does not pass the Luhn check.';
+            msg.style.color = 'red';
+            removeMsg();
+        }
+        
         else {
             msg.textContent = 'ID is valid!';
             msg.style.color = 'green';
