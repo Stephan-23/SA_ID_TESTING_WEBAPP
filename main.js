@@ -137,38 +137,45 @@ function getAge(id) {
 function onClick(e) {
     if (idInput.value === '') {  // Check if the input is filled
         msg.innerHTML = "CANNOT TEST THE EMPTY ID";
+        document.getElementById('exportButtons').style.display = 'none';
         removeMsg();
     } else {
         if (idInput.value.length !== 13) {
             msg.innerHTML = "Check the length of your ID. It must have 13 digits.";
+            document.getElementById('exportButtons').style.display = 'none';
             removeMsg();
         }
         // Check if the input contains only digits (no letters or special characters)
         else if (!/^\d+$/.test(idInput.value)) {
             msg.textContent = 'Invalid ID: Please enter only numbers.';
             msg.style.color = 'red';
+            document.getElementById('exportButtons').style.display = 'none';
             removeMsg();
         }
         // Check the ID: First 6 digits must be a valid date (YYMMDD)
         else if (!isDateValid(idInput.value.substring(0, 6))) {
             msg.textContent = 'Invalid date in ID: First 6 digits must be a valid date (YYMMDD).';
             msg.style.color = 'red';
+            document.getElementById('exportButtons').style.display = 'none';
             removeMsg();
         }
         // Check the 10th digit for citizenship
         else if (!isCitizen()) {
             msg.textContent = 'Invalid citizenship: 10th digit should be "0" or "1".';
             msg.style.color = 'red';
+            document.getElementById('exportButtons').style.display = 'none';
             removeMsg();
         }
         // Check the gender code
         else if (!genderValidation()) {
+            document.getElementById('exportButtons').style.display = 'none';
             msg.textContent = 'Invalid gender code: Should be a valid 4-digit number.';
             msg.style.color = 'red';
             removeMsg();
         }
         //Check the last digit
         else if (!isLuhnValid(idInput.value)) {
+            document.getElementById('exportButtons').style.display = 'none';
             msg.textContent = 'Invalid checksum: ID does not pass the Luhn check.';
             msg.style.color = 'red';
             removeMsg();
@@ -187,14 +194,23 @@ function onClick(e) {
 
             msg.innerHTML = `
                 <strong>ID is valid!</strong><br>
-                Birthdate: ${birthdate}<br>
+                Birthdate: ${birthdate}<br> 
                 Age: ${age} years old<br>
-                Zodiac Sign: ${zodiac} ♈️
+                Zodiac Sign: ${zodiac} ♈️<br>
                 Gender: ${gender}<br>
                 Citizenship: ${citizenship}
             `;
             msg.style.color = 'green';
-            removeMsg();
+            //removeMsg();
+            document.getElementById('exportButtons').style.display = 'block';
                 }
             }
 }
+document.querySelector('#exportPdfBtn').addEventListener('click', () => {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+ 
+    const content = msg.innerText;
+    doc.text(content, 10, 10);
+    doc.save('ID_Report.pdf');
+});

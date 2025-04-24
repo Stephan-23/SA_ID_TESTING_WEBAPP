@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Testing</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
 </head>
 <body>
    <h1> welcome to our id Testing</h1>
@@ -12,7 +14,12 @@
         <label for="idInput">ID Number</label>
         <input type="text" class="idInput" id="idInput">
         <msg id="msg" class="msg"></msg>
-        <button id="btn">Text</button>
+        <button id="btn">Test</button>
+        
+        <div id="exportButtons" style="display: none; margin-top: 10px;">
+            <button id="exportPdfBtn">📄 Export to PDF</button>
+        </div>
+
     </card>
    </section>
    <script src="main.js"></script>
