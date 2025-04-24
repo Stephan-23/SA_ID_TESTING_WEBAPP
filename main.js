@@ -1,28 +1,46 @@
+
+//DOM Elements
 const idInput = document.querySelector('#idInput');
 const btn = document.querySelector('#btn');
 const msg = document.querySelector('#msg');
+const exportBtnSection = document.getElementById('exportButtons');
 
-btn.addEventListener('click', onClick);
+btn.addEventListener('click', validateID);
 
-function removeMsg() {
-    setTimeout(() => msg.innerHTML = '', 4000); // Remove the msg after 4 seconds
+// === Utility Functions ===
+//function to dispaly message
+function showMessage(text, color = 'green') {     //display the details
+    msg.innerHTML = text;
+    msg.style.color = color;                      //add the green color
+}
+//funtion to clear the message after 4sec
+function clearMessage() {
+    setTimeout(() => {
+        msg.innerHTML = '';
+        hideExportButtons();    //make sure the button for pdf us hidden
+    }, 4000);
 }
 
-// Check for date validity
+// function to show the button for export the information to pdf
+function showExportButtons() {
+    exportBtnSection.style.display = 'block';
+}
+
+//function to hide the button 
+function hideExportButtons() {
+    exportBtnSection.style.display = 'none';
+}
+
+// === Validation Functions ===
+//function to check for the date of birth validation
 function isDateValid(yyMMdd) {
-    if (!/^\d{6}$/.test(yyMMdd)) return false;
-
-    let year = parseInt(yyMMdd.substring(0, 2), 10);
-    const month = parseInt(yyMMdd.substring(2, 4), 10);
-    const day = parseInt(yyMMdd.substring(4, 6), 10);
-
-    // Correct year logic: If the year is less than 25, assume it's 2000s, otherwise 1900s
+    if (!/^\d{6}$/.test(yyMMdd)) return false;   //check if 6 digits are digits
+    let year = parseInt(yyMMdd.substring(0, 2), 10);  //convert the year into the integer base 10(decimal)
+    let month = parseInt(yyMMdd.substring(2, 4), 10);
+    let day = parseInt(yyMMdd.substring(4, 6), 10);
     let fullYear = year >= 25 ? 1900 + year : 2000 + year;
 
-    // Create a Date object with the parsed year, month, and day
     const date = new Date(fullYear, month - 1, day);
-
-    // Compare the date components with the input values
     return (
         date.getFullYear() === fullYear &&
         date.getMonth() === month - 1 &&
@@ -30,79 +48,71 @@ function isDateValid(yyMMdd) {
     );
 }
 
-// Check for citizenship based on the 10th digit (index 10 in the ID)
-function isCitizen() {
-    const citizenDigit = idInput.value[10]; // The 10th character is at index 10
-    return citizenDigit === "1" || citizenDigit === "0";
+
+//function to check for the citizenship
+function isCitizen(id) {
+    const digit = id[10];
+    return digit === '0' || digit === '1';
 }
 
-// Check for gender validation
-function genderValidation() {
-    let genderCode = parseInt(idInput.value.substring(6, 10), 10); // Extract gender code
-    return genderCode >= 0 && genderCode <= 9999; // Valid gender code range
+//function to check the gender
+function isGenderValid(id) {
+    const code = parseInt(id.substring(6, 10), 10);
+    return code >= 0 && code <= 9999;
 }
-//check for the last digit
-function isLuhnValid(idNumber) {
-    let sum = 0;
-    let alternate = false;
 
-    for (let i = idNumber.length - 1; i >= 0; i--) {
-        let n = parseInt(idNumber[i], 10);
+function isLuhnValid(id) {
+    let sum = 0, alternate = false;
+    for (let i = id.length - 1; i >= 0; i--) {
+        let n = parseInt(id[i], 10);
         if (alternate) {
             n *= 2;
-            if (n > 9) {
-                n -= 9;
-            }
+            if (n > 9) n -= 9;
         }
         sum += n;
         alternate = !alternate;
     }
-
-    return (sum % 10 === 0);
+    return sum % 10 === 0;
 }
 
-//fuction to display the information
-function getDateOfBirth(id){
+// === Info Extract Functions ===
+//function to get the dob info
+function getDateOfBirth(id) {
     let year = parseInt(id.substring(0, 2), 10);
-    const month = parseInt(id.substring(2, 4), 10);
-    const day = parseInt(id.substring(4, 6), 10);
-
+    let month = parseInt(id.substring(2, 4), 10);
+    let day = parseInt(id.substring(4, 6), 10);
     return `${String(day).padStart(2, '0')}/${String(month).padStart(2, '0')}/${year}`;
 }
 
 function getGender(id) {
-    let genderCode = parseInt(id.substring(6, 10), 10);
-    return genderCode < 5000 ? 'Female' : 'Male';
+    return parseInt(id.substring(6, 10), 10) < 5000 ? 'Female' : 'Male';
 }
 
 function getCitizenship(id) {
-    const citizenDigit = id[10];
-    return citizenDigit === '0' ? 'South African' : 'Permanent Resident';
+    return id[10] === '0' ? 'South African' : 'Permanent Resident';
 }
 
-
-//calculate the age
+//funnction to calculate the age based on the dob
 function getAge(id) {
     let year = parseInt(id.substring(0, 2), 10);
-    let month = parseInt(id.substring(2, 4), 10) - 1; // Months are 0-based in JS
+    let month = parseInt(id.substring(2, 4), 10) - 1;
     let day = parseInt(id.substring(4, 6), 10);
     let fullYear = year >= 25 ? 1900 + year : 2000 + year;
 
-    const birthDate = new Date(fullYear, month, day);
-    const today = new Date();
+    const birthDate = new Date(fullYear, month, day); //create the object from the dob in the id
+    const today = new Date();   //the current date object
 
-    let age = today.getFullYear() - birthDate.getFullYear();
+    let age = today.getFullYear() - birthDate.getFullYear();  
     const m = today.getMonth() - birthDate.getMonth();
     if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
         age--;
     }
 
-    return age;
+    return age; 
 }
 
-
- //function for adding the Zodiac Sign
- function getZodiacSign(day, month) {
+//function for the zodiac signs
+function getZodiacSign(day, month) {
     const signs = [
         { sign: "Capricorn", from: [12, 22], to: [1, 19] },
         { sign: "Aquarius", from: [1, 20], to: [2, 18] },
@@ -118,99 +128,60 @@ function getAge(id) {
         { sign: "Sagittarius", from: [11, 22], to: [12, 21] },
     ];
 
-    for (const { sign, from, to } of signs) {
-        const [fromMonth, fromDay] = from;
-        const [toMonth, toDay] = to;
-
-        if (
-            (month === fromMonth && day >= fromDay) ||
-            (month === toMonth && day <= toDay)
-        ) {
+    for (let { sign, from, to } of signs) {
+        const [fMonth, fDay] = from;
+        const [tMonth, tDay] = to;
+        if ((month === fMonth && day >= fDay) || (month === tMonth && day <= tDay)) {
             return sign;
         }
     }
-
-    return "Capricorn"; // fallback
+    return "Capricorn";
 }
 
+// === Main Validation ===
+//function for main validation validateID() used in the button 
+function validateID() {
+    const id = idInput.value.trim();
 
-function onClick(e) {
-    if (idInput.value === '') {  // Check if the input is filled
-        msg.innerHTML = "CANNOT TEST THE EMPTY ID";
-        document.getElementById('exportButtons').style.display = 'none';
-        removeMsg();
-    } else {
-        if (idInput.value.length !== 13) {
-            msg.innerHTML = "Check the length of your ID. It must have 13 digits.";
-            document.getElementById('exportButtons').style.display = 'none';
-            removeMsg();
-        }
-        // Check if the input contains only digits (no letters or special characters)
-        else if (!/^\d+$/.test(idInput.value)) {
-            msg.textContent = 'Invalid ID: Please enter only numbers.';
-            msg.style.color = 'red';
-            document.getElementById('exportButtons').style.display = 'none';
-            removeMsg();
-        }
-        // Check the ID: First 6 digits must be a valid date (YYMMDD)
-        else if (!isDateValid(idInput.value.substring(0, 6))) {
-            msg.textContent = 'Invalid date in ID: First 6 digits must be a valid date (YYMMDD).';
-            msg.style.color = 'red';
-            document.getElementById('exportButtons').style.display = 'none';
-            removeMsg();
-        }
-        // Check the 10th digit for citizenship
-        else if (!isCitizen()) {
-            msg.textContent = 'Invalid citizenship: 10th digit should be "0" or "1".';
-            msg.style.color = 'red';
-            document.getElementById('exportButtons').style.display = 'none';
-            removeMsg();
-        }
-        // Check the gender code
-        else if (!genderValidation()) {
-            document.getElementById('exportButtons').style.display = 'none';
-            msg.textContent = 'Invalid gender code: Should be a valid 4-digit number.';
-            msg.style.color = 'red';
-            removeMsg();
-        }
-        //Check the last digit
-        else if (!isLuhnValid(idInput.value)) {
-            document.getElementById('exportButtons').style.display = 'none';
-            msg.textContent = 'Invalid checksum: ID does not pass the Luhn check.';
-            msg.style.color = 'red';
-            removeMsg();
-        }
-        
-        else {
-            const id = idInput.value;
-            const birthdate = getDateOfBirth(id);
-            const gender = getGender(id);
-            const citizenship = getCitizenship(id);
-            const age = getAge(id);
-            const birthDay = parseInt(id.substring(4, 6), 10);
-            const birthMonth = parseInt(id.substring(2, 4), 10);
-            const zodiac = getZodiacSign(birthDay, birthMonth);
+    if (id === '') return showError('CANNOT TEST THE EMPTY ID');       //if the id is empty show the msg 
+    if (id.length !== 13) return showError('Check the length of your ID. It must have 13 digits.');
+    if (!/^\d+$/.test(id)) return showError('Invalid ID: Please enter only numbers.');
+    if (!isDateValid(id.substring(0, 6))) return showError('Invalid date in ID: First 6 digits must be a valid date.');
+    if (!isCitizen(id)) return showError('Invalid citizenship: 10th digit should be "0" or "1".');
+    if (!isGenderValid(id)) return showError('Invalid gender code: Should be a valid 4-digit number.');
+    if (!isLuhnValid(id)) return showError('Invalid checksum: ID does not pass the Luhn check.');
 
+    const birthdate = getDateOfBirth(id);
+    const age = getAge(id);
+    const gender = getGender(id);
+    const citizenship = getCitizenship(id);
+    const day = parseInt(id.substring(4, 6), 10);
+    const month = parseInt(id.substring(2, 4), 10);
+    const zodiac = getZodiacSign(day, month);
 
-            msg.innerHTML = `
-                <strong>ID is valid!</strong><br>
-                Birthdate: ${birthdate}<br> 
-                Age: ${age} years old<br>
-                Zodiac Sign: ${zodiac} ♈️<br>
-                Gender: ${gender}<br>
-                Citizenship: ${citizenship}
-            `;
-            msg.style.color = 'green';
-            //removeMsg();
-            document.getElementById('exportButtons').style.display = 'block';
-                }
-            }
+    const result = `
+        <strong>ID is valid!</strong><br>
+        Birthdate: ${birthdate}<br>
+        Age: ${age} years old<br>
+        Zodiac Sign: ${zodiac} ♈️<br>
+        Gender: ${gender}<br>
+        Citizenship: ${citizenship}
+    `;
+    showMessage(result);   //dispaly the details
+    showExportButtons();
 }
+
+//function to show and clear the error message
+function showError(message) {
+    showMessage(message, 'red');      //in the show message pass the message and the red color
+    hideExportButtons();
+    clearMessage();
+}
+
+// === Export Button ===
 document.querySelector('#exportPdfBtn').addEventListener('click', () => {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
- 
-    const content = msg.innerText;
-    doc.text(content, 10, 10);
+    doc.text(msg.innerText, 10, 10);
     doc.save('ID_Report.pdf');
-});
+})
