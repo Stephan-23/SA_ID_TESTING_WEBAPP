@@ -26,3 +26,10 @@ body {
     font-size: 28px;
   }
   
+
+  label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #555;
+  }
