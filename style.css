@@ -64,3 +64,44 @@ body {
   button#btn:hover {
     background-color: #0056b3;
   }
+
+  #msg {
+    margin-top: 20px;
+    font-size: 15px;
+    line-height: 1.5;
+    transition: all 0.3s;
+    word-wrap: break-word;
+  }
+   
+  #exportButtons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  
+  #exportButtons button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+  }
+  
+  #exportButtons button:hover {
+    background-color: #218838;
+  }
+  
+  @media (max-width: 480px) {
+    section {
+      padding: 20px;
+    }
+  
+    button, input {
+      font-size: 14px;
+    }
+  }

@@ -150,6 +150,7 @@ function validateID() {
     if (!isCitizen(id)) return showError('Invalid citizenship: 10th digit should be "0" or "1".');
     if (!isGenderValid(id)) return showError('Invalid gender code: Should be a valid 4-digit number.');
     if (!isLuhnValid(id)) return showError('Invalid checksum: ID does not pass the Luhn check.');
+    
 
     const birthdate = getDateOfBirth(id);
     const age = getAge(id);
