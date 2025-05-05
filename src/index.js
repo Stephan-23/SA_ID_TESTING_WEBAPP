@@ -23,6 +23,34 @@ app.get(('/Signup'), (req, res)=>{
 })
 
 
+//post method for signup(create the new user)
+app.post('/Signup', async (req, res)=>{
+
+    //get the data from the user 
+    const data = {
+        name: req.body.Username,
+        LastName: req.body.LastName,
+        email: req.body.Email,
+        password: req.body.Password
+    }
+    //check if the user exist
+    const userExist = await collection.findOne({email: data.email})
+    if(userExist){
+        res.send('USER ALREADY EXISTING IN THE DATABASE')
+    }
+    else{
+        //create the user
+        const saltRound = 10;
+        const hashedPassword = await bcrypt.hash(data.password, saltRound)
+        data.password = hashedPassword;
+
+        const userdata = await collection.insertMany(data);
+        res.redirect('/');
+        console.log(userdata);
+    }
+
+})
+
 
 //choose the port to run the server
 const port = 5000;
