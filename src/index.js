@@ -6,7 +6,7 @@ const bcrypt = require('bcrypt');
 
 //create the express application
 const app = express();
-app.use(express.json());   //convert te data to the JSON
+app.use(express.json());   //convert the data to the JSON
 
 app.use(express.static("public"))
 
@@ -30,7 +30,7 @@ app.post('/Signup', async (req, res)=>{
     const data = {
         name: req.body.Username,
         LastName: req.body.LastName,
-        email: req.body.Email,
+        email: req.body.email,
         password: req.body.Password
     }
     //check if the user exist
@@ -50,6 +50,7 @@ app.post('/Signup', async (req, res)=>{
     }
 
 })
+
 
 
 //choose the port to run the server
