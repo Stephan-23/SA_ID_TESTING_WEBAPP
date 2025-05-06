@@ -77,10 +77,10 @@ app.post('/Login', async (req, res)=>{
 })
 
 //choose the port to run the server
-/*const port = 5000;
+const port = 5000;
 app.listen(port , ()=>{
     console.log(`Server is running on port: ${port}`);
-})*/
+})
 
 // Export the app for Vercel
 module.exports = app;
