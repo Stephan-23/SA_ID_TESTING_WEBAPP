@@ -30,11 +30,12 @@ MongoDB (local or cloud instance like MongoDB Atlas)
 
 Git
 
-# Setup Instructions
-Clone the Repository  
+
+## Clone the Repository  
 bash
 
 git clone https://github.com/Stephan-23/SA_ID_TESTING_WEBAPP.git
+
 cd sa-id-tester
 
 # Install Dependencies
