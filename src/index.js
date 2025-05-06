@@ -8,13 +8,15 @@ const { name } = require('ejs');
 //create the express application
 const app = express();
 app.use(express.json());   //convert the data to the JSON
-
-app.use(express.static("public"))
+app.use(express.static(path.join(__dirname, '../public')));
+//app.use(express.static("public"))
 
 app.use(express.urlencoded({ extended: false }))
 //set ejs as view engine, go to for view and render the ejs files as html
 app.set('view engine', 'ejs')
+app.set('views', path.join(__dirname, '../views')); 
 
+// Routes
 app.get(('/'), (req, res)=>{
     res.render('Login')// render the login page.
 })
@@ -75,7 +77,10 @@ app.post('/Login', async (req, res)=>{
 })
 
 //choose the port to run the server
-const port = 5000;
+/*const port = 5000;
 app.listen(port , ()=>{
     console.log(`Server is running on port: ${port}`);
-})
+})*/
+
+// Export the app for Vercel
+module.exports = app;
