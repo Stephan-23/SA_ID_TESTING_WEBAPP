@@ -1,5 +1,5 @@
 # SA-ID Testing Web App
-A responsive web application built to validate South African ID numbers, calculate age, and authenticate users using HTML, CSS, JavaScript, React, and MongoDB.
+A responsive web application built to validate South African ID numbers, calculate age, and authenticate users using HTML, CSS, JavaScript, and MongoDB.
 About
 This project is a full-stack web application designed to validate South African ID numbers. It checks the validity of an ID, calculates the user's age, and authenticates users via a MongoDB database. The app achieves a 98% accuracy rate in validation tests and provides a seamless user experience across devices.
 ## Features
@@ -11,10 +11,10 @@ Authenticates users with MongoDB for secure access.
 
 Responsive design for desktop and mobile devices.
 
-Built with React for a dynamic front-end and MongoDB for back-end data storage.
+Built with HTML, CSS, JavaScript for a dynamic front-end and MongoDB for back-end data storage.
 
 ## Tech Stack
-Front-End: HTML, CSS, JavaScript, React
+Front-End: HTML, CSS, JavaScript
 
 Back-End: Node.js, Express
 
