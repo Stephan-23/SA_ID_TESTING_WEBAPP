@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ID Checkers</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+ 
+    <h1>South African ID Checker</h1>
+  
+    <!-- The card section -->
+    <section>
+      <label for="idInput">Enter ID Number:</label>
+      <input type="text" id="idInput" placeholder="e.g. 9901011234081" />
+      <button id="btn">Validate ID</button>
+      <div id="msg" class="msg"></div>
+      <div id="exportButtons" style="display: none;">
+        <button id="exportPdfBtn">📄 Export to PDF</button>
+        <button id="exportCsvBtn">📊 Export to Excel</button>
+      </div>
+    </section>
+    <script src="main.js"></script>
+  </body>
+  
+</html>
