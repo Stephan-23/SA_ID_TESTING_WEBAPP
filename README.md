@@ -62,20 +62,6 @@ The app will validate the ID, display the calculated age, and authenticate the u
 
 View error messages for invalid IDs or authentication failures.
 
-## Project Structure
-
-sa-id-tester/
-├── client/               # Front-end (React)
-│   ├── src/              # React components, styles, and logic
-│   └── public/           # Static assets
-├── src/                  # Back-end (Node.js/Express)
-│   ├── routes/           # API routes
-│   ├── models/           # MongoDB schemas
-│   └── index.js          # Entry point for the back-end
-├── .env                  # Environment variables (not tracked)
-├── package.json          # Project dependencies
-└── README.md             # This file
-
 ## Contributing
 Fork the repository.
 
