@@ -3,6 +3,7 @@ const express = require('express');
 const path = require('path');
 const collection = require('./config')
 const bcrypt = require('bcrypt');
+const { name } = require('ejs');
 
 //create the express application
 const app = express();
@@ -50,8 +51,28 @@ app.post('/Signup', async (req, res)=>{
     }
 
 })
+//post for login
+app.post('/Login', async (req, res)=>{
+    try{
+        const existingUserEmail = await collection.findOne({name: req.body.name})
+        if(!existingUserEmail){
+            res.send('User not found. Please Signup!')
+            
+        }
 
+        //if the user found check that the password match
+        const passwordCheck = await bcrypt.compare(req.body.Password, existingUserEmail.password);
+        if(!passwordCheck){
+            res.send('Wrong Password');
+        }else{
+            res.render('Home');
+        }
 
+    }catch{
+        res.send("Wrong Details");
+    }
+
+})
 
 //choose the port to run the server
 const port = 5000;
