@@ -78,7 +78,7 @@ app.post('/login', async (req, res)=>{
 })
 
 //choose the port to run the server
-const port = process.env.PORT || 5000; // Fallback to 5000 if PORT is not defined
+const port = process.env.PORT || 5000; 
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);
 });
