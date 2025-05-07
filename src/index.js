@@ -3,6 +3,7 @@ const express = require('express');
 const path = require('path');
 const collection = require('./config')
 const bcrypt = require('bcrypt');
+require('dotenv').config();
 const { name } = require('ejs');
 
 //create the express application
@@ -18,16 +19,16 @@ app.set('views', path.join(__dirname, '../views'));
 
 // Routes
 app.get(('/'), (req, res)=>{
-    res.render('Login')// render the login page.
+    res.render('login')// render the login page.
 })
 
-app.get(('/Signup'), (req, res)=>{
-    res.render('Signup')// render the Signup page.
+app.get(('/signup'), (req, res)=>{
+    res.render('signup')// render the Signup page.
 })
 
 
 //post method for signup(create the new user)
-app.post('/Signup', async (req, res)=>{
+app.post('/signup', async (req, res)=>{
 
     //get the data from the user 
     const data = {
@@ -54,7 +55,7 @@ app.post('/Signup', async (req, res)=>{
 
 })
 //post for login
-app.post('/Login', async (req, res)=>{
+app.post('/login', async (req, res)=>{
     try{
         const existingUserEmail = await collection.findOne({name: req.body.name})
         if(!existingUserEmail){
@@ -67,7 +68,7 @@ app.post('/Login', async (req, res)=>{
         if(!passwordCheck){
             res.send('Wrong Password');
         }else{
-            res.render('Home');
+            res.render('home');
         }
 
     }catch{
@@ -77,10 +78,10 @@ app.post('/Login', async (req, res)=>{
 })
 
 //choose the port to run the server
-const port = 5000;
-app.listen(port , ()=>{
+const port = process.env.PORT || 5000; // Fallback to 5000 if PORT is not defined
+app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);
-})
+});
 
 // Export the app for Vercel
 module.exports = app;
