@@ -70,3 +70,21 @@ a {
 a:hover {
     text-decoration: underline;
 }
+
+.error-msg {
+    display: block;
+    font-size: 0.9em;
+    margin-top: 5px;
+}
+
+@media (max-width: 600px) {
+    .form-container {
+        max-width: 90%;
+        padding: 20px;
+        margin-top: 50px;
+    }
+    input, button {
+        font-size: 14px;
+        padding: 8px;
+    }
+}

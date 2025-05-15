@@ -26,9 +26,19 @@
             <label for="Password">Password</label>
             <input type="password" id="Password" name="Password" placeholder="Enter your Password" required>
         </div>
-        <button type="submit" id="submit-btn">Signup</button>
-        
+        <div class="group-form">
+            <label for="confirmPassword">Confirm Password</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" required>
+            <span id="passwordMsg" class="error-msg"></span>
+        </div>
+        <div class="group-form checkbox-group">
+            <label for="ageCheck" class="age-label">Over 18 years?</label>
+            <input type="checkbox" id="ageCheck" name="ageCheck" value="ageC">
+            <span id="ageMsg" class="error-msg"></span>
+        </div>
+        <button type="submit" id="submit-btn" disabled>Signup</button>
       </form>
     </div>
+    <script src="/signup.js"></script>
 </body>
 </html>
