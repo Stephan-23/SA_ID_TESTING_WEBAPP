@@ -37,6 +37,20 @@ app.post('/signup', async (req, res)=>{
         email: req.body.email,
         password: req.body.Password
     }
+
+    const confirmPassword = req.body.confirmPassword;
+    const ageCheck = req.body.ageCheck;
+
+    // Validate password match
+    if (data.password !== confirmPassword) {
+        return res.send('Passwords do not match');
+    }
+
+    // Validate age checkbox
+    if (!ageCheck) {
+        return res.send('You must confirm you are over 18 to sign up');
+    }
+
     //check if the user exist
     const userExist = await collection.findOne({email: data.email})
     if(userExist){
